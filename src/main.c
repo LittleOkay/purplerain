@@ -9,6 +9,7 @@ int main(){
    initRain();
    float lastTime = glfwGetTime();
    do{
+      fflush(stdout);
       float currentTime = glfwGetTime();
       float deltaTime = currentTime - lastTime;
       lastTime = currentTime;
@@ -37,7 +38,7 @@ GLFWwindow* createWindow(){
       return -1;
    }
    glfwMakeContextCurrent(window);
-   glViewport(0,0,640,360);
+   glViewport(0,0,640,360);   //window resolution
    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); 
    return window;
 }
@@ -52,12 +53,13 @@ void renderParticles(){
    for(int i = 0; i < MAX_RAIN; i++){
       drawRainDrop(&rain[i]);
    }
+   drawSplashes();
 }
 
 void setOrthographicProjection(){
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity(); 
-   glOrtho(0.0, 640.0, 360.0, 0.0, -1.0, 1.0);
+   glOrtho(0.0, 640.0, 365.0, -20.0, -1.0, 1.0);
    glMatrixMode(GL_MODELVIEW);   
    glLoadIdentity();
 }
@@ -65,7 +67,7 @@ void setOrthographicProjection(){
 void initRain(){
    for (int i=0; i < MAX_RAIN; i++){
       float x = rand() % 640; 
-      float y = rand() % 360; 
+      float y = -50 + (rand() % 360); 
       float length = 5 + (rand() % 10);
       float speed = 100 + (rand() % 150); 
      //float speed = 20;
@@ -77,4 +79,6 @@ void updateRain(float deltaTime){
    for (int i = 0; i < MAX_RAIN; i++){
       updateRainDrop(&rain[i], deltaTime);
    }
+   updateSplashes(deltaTime);
 }
+
