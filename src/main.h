@@ -13,6 +13,7 @@
 
 #define MAX_RAIN 100
 rainDrop rain[MAX_RAIN];
+//extern splashEffect splashes[MAX_SPLASHES];
 
 GLFWwindow* createWindow(void);
 void drawScene(void);
